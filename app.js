@@ -4,10 +4,34 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const MongoClient = require("mongodb").MongoClient;
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+
+// db connection init
+const db_user = "";
+const db_pw = "";
+const db_server = "";
+const db_port = "";
+let db_url = `mongodb://${db_user}:${db_pw}@${db_server}:${db_port}/${db_user}`;
+let db_collection = "recipes";
+
+let client = await MongoClient.connect(db_url, { useUnifiedTopology: true}, (err, client) => {
+  if (err) {
+    console.error("Failed to connect to the database", err);
+    process.exit(1);  // non zero value indicates an error
+  } else {
+    console.log("Connected to the database");
+    app.locals.mongo = client;
+    app.locals.db = client.db(db_user);
+  }
+});
+
+//let collection = await db.collection(db_collection);  // recipe collection
+//const projection = {_id: true, name: true};  // limit output to id and name
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
