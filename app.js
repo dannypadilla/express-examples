@@ -19,7 +19,7 @@ const db_port = "";
 let db_url = `mongodb://${db_user}:${db_pw}@${db_server}:${db_port}/${db_user}`;
 let db_collection = "recipes";
 
-let client = await MongoClient.connect(db_url, { useUnifiedTopology: true}, (err, client) => {
+MongoClient.connect(db_url, { useUnifiedTopology: true}, (err, client) => {
   if (err) {
     console.error("Failed to connect to the database", err);
     process.exit(1);  // non zero value indicates an error
