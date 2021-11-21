@@ -17,7 +17,7 @@ const db_pw = "";
 const db_server = "";
 const db_port = "";
 let db_url = `mongodb://${db_user}:${db_pw}@${db_server}:${db_port}/${db_user}`;
-let db_collection = "recipes";
+const db_collection = "recipes";
 
 MongoClient.connect(db_url, { useUnifiedTopology: true}, (err, client) => {
   if (err) {
@@ -27,6 +27,7 @@ MongoClient.connect(db_url, { useUnifiedTopology: true}, (err, client) => {
     console.log("Connected to the database");
     app.locals.mongo = client;
     app.locals.db = client.db(db_user);
+    app.locals.db_collection = db_collection;
   }
 });
 
