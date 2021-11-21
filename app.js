@@ -1,3 +1,4 @@
+require("dotenv").config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -12,10 +13,10 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 // db connection init
-const db_user = "";
-const db_pw = "";
-const db_server = "";
-const db_port = "";
+const db_user = process.env.DB_USERNAME || "";
+const db_pw = process.env.DB_PASSWORD || "";
+const db_server = process.env.DB_HOST || "localhost";
+const db_port = process.env.DB_PORT || 27017;
 let db_url = `mongodb://${db_user}:${db_pw}@${db_server}:${db_port}/${db_user}`;
 const db_collection = "recipes";
 
