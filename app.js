@@ -66,4 +66,22 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// graceful shutdown
+async function shutdown(callback) {
+  await app.locals.mongo.close();
+  console.log("Disconnected from database");
+  if (typeof callback == "function") {
+    callback();
+  } else {
+    process.exit(0);
+  }
+}
+
+// handlers
+process.on("SIGINT", shutdown);
+process.on("SIGTERM", shutdown);
+process.once("SIGUSR2", () => {
+  shutdown(() => process.kill(process.pid, "SIGUSR2") );
+});
+
 module.exports = app;
