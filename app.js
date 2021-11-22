@@ -5,6 +5,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const passport = require("./auth");  // auth.js
+
 const MongoClient = require("mongodb").MongoClient;
 
 var indexRouter = require('./routes/index');
@@ -46,6 +48,8 @@ app.use(cookieParser());
 
 // express.static --> responsible for sending back the static resources
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(passport.initialize() );  // auth.js
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
